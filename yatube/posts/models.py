@@ -17,6 +17,10 @@ class Post(models.Model):
         on_delete=models.CASCADE,
         blank=True,
         null=True)
+        
+        def __str__(self):
+        # выводим текст поста 
+            return self.text 
 
     class Meta:
         ordering = ['-pub_date']
