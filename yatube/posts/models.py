@@ -5,6 +5,9 @@ User = get_user_model()
 
 
 class Post(models.Model):
+    def __str__(self):
+        # выводим текст поста
+        return self.text
     text = models.TextField()
     pub_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
@@ -17,10 +20,6 @@ class Post(models.Model):
         on_delete=models.CASCADE,
         blank=True,
         null=True)
-        
-        def __str__(self):
-        # выводим текст поста 
-            return self.text 
 
     class Meta:
         ordering = ['-pub_date']
