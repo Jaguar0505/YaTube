@@ -1,7 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Group , User
 from django.core.paginator import Paginator
 from django.views.generic.base import TemplateView
+from .forms import PostForm
+
 
 def index(request):
     posts = Post.objects.all()
@@ -46,6 +48,17 @@ def post_detail(request, post_id):
     'post_list':post_list,
     }
     return render(request, 'posts/post_detail.html', context)
+
+
+def post_create(request):
+    form = PostForm(request.POST or None)
+    if form.is_valid():
+        post = form.save(commit=False)
+        post.author = request.user
+        post.save()
+        return redirect('posts:profile', request.user)
+    return render(request, 'posts/create_post.html', {'form': form})
+
 
 
 class JustStaticPage(TemplateView):
